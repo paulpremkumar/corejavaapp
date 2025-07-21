@@ -5,11 +5,11 @@ import java.util.*;
 
 public class CrudServer {
     public static void main(String[] args) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(8081), 0);
         server.createContext("/users", new UserHandler());
         server.setExecutor(null);
         server.start();
-        System.out.println("✅ Server running at http://localhost:8080/users");
+        System.out.println("✅ Server running at http://localhost:8081/users");
     }
 
     static class UserHandler implements HttpHandler {
@@ -54,10 +54,13 @@ public class CrudServer {
             String password = extractJson(json, "password");
 
             User newUser = new User(null, username, email, password);
-            boolean success = dao.addUser(newUser);
+           OperationResult result = dao.addUser(newUser);
+String jsonResponse = "{\"success\":" + result.isSuccess() + ", \"message\":\"" + result.getMessage() + "\"}";
 
-            String response = success ? "User added" : "Error adding user";
-            sendResponse(exchange, success ? 200 : 500, "text/plain", response);
+sendResponse(exchange,
+             result.isSuccess() ? 200 : 400,
+             "application/json",
+             jsonResponse);
         }
 
         private void handleDelete(HttpExchange exchange) throws IOException {
