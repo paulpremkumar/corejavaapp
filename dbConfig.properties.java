@@ -1,0 +1,14 @@
+# MySQL config
+mysql.url=jdbc:mysql://localhost:3306/attendance?useSSL=false&serverTimezone=UTC
+mysql.user=root
+mysql.password=root
+
+# Oracle config
+oracle.url=jdbc:oracle:thin:@localhost:1521:xe
+oracle.user=oracle_user
+oracle.password=oracle_pass
+
+# PostgreSQL config
+psql.url=jdbc:postgresql://localhost:5432/mydb
+psql.user=psql_user
+psql.password=psql_pass
